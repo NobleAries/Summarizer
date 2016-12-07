@@ -7,5 +7,3 @@ class Crawler(object):
 		content = f.read()
 		f.close()
 		return content
-
-
