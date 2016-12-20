@@ -12,7 +12,7 @@ Step 3. Launch the python interpreter
 ```
 python
 ```
-Step 4. Install NLTK Data
+Step 4. Install NLTK Data and BeautifulSoup
 ```python
 >>> import nltk
 >>> nltk.download('all')
