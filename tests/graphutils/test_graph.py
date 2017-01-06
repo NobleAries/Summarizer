@@ -29,6 +29,7 @@ class GraphTestCase(unittest.TestCase):
         edge = Edge(vertex1, vertex2, 4)
         self.graph.add_edge(edge)
         self.assertIsNotNone(self.graph.find_edge(vertex1, vertex2))
+        self.assertIsNotNone(self.graph.find_edge(vertex2, vertex1))
 
     def test_find_edge_non_existing(self):
         vertex1 = Vertex("sample", ["sample"])
@@ -38,7 +39,7 @@ class GraphTestCase(unittest.TestCase):
         self.graph.add_edge(edge)
         self.assertIsNone(self.graph.find_edge(vertex1, vertex3))
 
-    def test_find_edge_isolated_vertexes(self):
+    def test_find_edge_isolated_vertices(self):
         vertex1 = Vertex("sample", ["sample"])
         vertex2 = Vertex("sample", ["sample"])
         self.graph.add_vertex(vertex1)
