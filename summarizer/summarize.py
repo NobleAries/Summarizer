@@ -15,7 +15,7 @@ class Summarizer:
 
     def summarize(self, text, number_of_sentences, output_file=None):
         summary = self.algorithm.execute(text, number_of_sentences)
-        if output_file is not None:
-            with open(output_file, 'w') as file:
-                file.write(summary)
+        if output_file:
+            with open(output_file, 'a') as file:
+                file.write(summary + '\n\n')
         return summary
