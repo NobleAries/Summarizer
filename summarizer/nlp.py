@@ -1,5 +1,6 @@
 import nltk
 import string
+import os
 
 
 class NaturalLanguageProcessor:
@@ -15,7 +16,7 @@ class NaturalLanguageProcessor:
 
     @staticmethod
     def _process_words(words):
-        with open('summarizer\stopwords.txt', 'r') as file:
+        with open(os.path.join(os.path.dirname(__file__), 'stopwords.txt'), 'r') as file:
             stop_words = file.read().split('\n')
         words = NaturalLanguageProcessor.remove_punctuation(words)
         words = NaturalLanguageProcessor.remove_stop_words(words, stop_words)

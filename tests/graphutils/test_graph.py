@@ -21,7 +21,7 @@ class GraphTestCase(unittest.TestCase):
         edge = Edge(vertex1, vertex2, 1)
         self.graph.add_edge(edge)
         self.assertTrue(len(self.graph.edges) == 1)
-        self.assertTrue(edge in self.graph.edges)
+        self.assertTrue(edge in self.graph.edges.values())
 
     def test_find_edge_existing(self):
         vertex1 = Vertex("sample", ["sample"])

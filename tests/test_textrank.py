@@ -45,6 +45,8 @@ class TextRankTestCase(unittest.TestCase):
         self.assertTrue(processed_scores == "Sentence 1", processed_scores)
 
     def test_execute(self):
-        text = "Sentence 1. Sentence 1. Sentence 2. Sentence 3"
+        with open('../example/article.txt', 'r') as example:
+            text = example.read()
         processed_score = self.textrank.execute(text, 1)
-        self.assertTrue(processed_score == "Sentence 1.", processed_score)
+        expected_score = '''The President-elect's unusual call with Taiwan President Tsai Ing-wen on Friday led to a diplomatic protest, although Vice President-elect Mike Pence played down its significance, saying it was a "courtesy", not intended to show a shift in US policy on China.'''
+        self.assertTrue(processed_score == expected_score, processed_score)
