@@ -18,7 +18,7 @@ class TextRankAlgorithm(SummarizationAlgorithm):
         sentences = NaturalLanguageProcessor.split_by_sentences(text)
         words_in_sentences = {sentence: NaturalLanguageProcessor.split_by_words(sentence) for sentence in sentences}
         words_in_sentences = {sentence: words for sentence, words in words_in_sentences.items() if len(words) > 1}
-        sentences = words_in_sentences.keys()
+        sentences = list(words_in_sentences.keys())
         return sentences, words_in_sentences
 
     def _create_sentence_graph(self, sentences, words):

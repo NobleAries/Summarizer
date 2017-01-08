@@ -11,6 +11,18 @@ class TextRankTestCase(unittest.TestCase):
         self.sentences = ["Sentence 1", "Sentence 1", "Sentence 2", "Sentence 3"]
         self.words = {sentence: NaturalLanguageProcessor.split_by_words(sentence) for sentence in self.sentences}
 
+    def test_prepare_sentences_and_words(self):
+        text = 'I don\'t think so. Donald Trump is the President of USA. Today, tomorrow or yesterday?' \
+               'That is the very important question. Go study.'
+        sentences, words = self.textrank._prepare_sentences_and_words(text)
+        self.assertTrue(len(sentences) == 3)
+        self.assertFalse('I don\'t think so' in sentences)
+        self.assertFalse('Go study.' in sentences)
+        self.assertTrue(len(words.keys()) == 3)
+        self.assertTrue(words['That is the very important question.'] == ['important', 'question'])
+        self.assertTrue(words['Donald Trump is the President of USA.'] == ['Donald', 'Trump', 'President', 'USA'])
+        self.assertTrue(words['Today, tomorrow or yesterday?'] == ['Today', 'tomorrow', 'yesterday'])
+
     def test_add_vertices(self):
         self.textrank.graph = Graph()
         self.textrank._add_vertices(self.sentences, self.words)
@@ -45,8 +57,18 @@ class TextRankTestCase(unittest.TestCase):
         self.assertTrue(processed_scores == "Sentence 1", processed_scores)
 
     def test_execute(self):
-        with open('../example/article.txt', 'r') as example:
-            text = example.read()
+        text = ('Donald Trump has complained about Chinese economic and military policy after a phone conversation with '
+               'Taiwan\'s President drew the ire of Beijing. The President-elect\'s unusual call with Taiwan President '
+               'Tsai Ing-wen on Friday led to a diplomatic protest, although Vice President-elect Mike Pence played '
+               'down its significance, saying it was a "courtesy", not intended to show a shift in US policy on China. '
+               '"Did China ask us if it was OK to devalue their currency (making it hard for our companies to '
+               'compete), heavily tax our products going into their country (the U.S. doesn\'t tax them) or to build a '
+               'massive military complex in the middle of the South China Sea? I don\'t think so!" Mr Trump said on '
+               'Twitter. China, Taiwan, the Philippines, Vietnam, Malaysia and Brunei claim ownership of parts or '
+               'all of the energy-rich South China Sea, through which trillions of dollars in trade passes '
+               'annually.')
         processed_score = self.textrank.execute(text, 1)
-        expected_score = '''The President-elect's unusual call with Taiwan President Tsai Ing-wen on Friday led to a diplomatic protest, although Vice President-elect Mike Pence played down its significance, saying it was a "courtesy", not intended to show a shift in US policy on China.'''
+        expected_score = ('The President-elect\'s unusual call with Taiwan President Tsai Ing-wen on Friday led to a '
+                         'diplomatic protest, although Vice President-elect Mike Pence played down its significance, '
+                         'saying it was a "courtesy", not intended to show a shift in US policy on China.')
         self.assertTrue(processed_score == expected_score, processed_score)
