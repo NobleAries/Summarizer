@@ -21,7 +21,10 @@ if __name__ == '__main__':
     algorithm_dict = {'textrank': TextRankAlgorithm(), 'sumbasic': SumBasicAlgorithm()}
     algorithm = algorithm_dict[args.algorithm]
     summarizer = Summarizer(algorithm)
+    print('Fetching articles...')
     for article in crawler.get_content():
-        summary = summarizer.summarize(text=article.text, number_of_sentences=args.sentences, output_file=args.outfile)
+        print('Summarizing article: ', article.title)
+        summary = summarizer.summarize(text=article.text, number_of_sentences=args.sentences, output_file=args.outfile,
+                                       title=article.title)
         print(summary)
         print()
