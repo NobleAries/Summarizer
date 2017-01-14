@@ -2,6 +2,7 @@ from webcrawler.crawler import Crawler
 from summarizer.summarize import Summarizer
 from summarizer.textrank import TextRankAlgorithm
 from summarizer.sumbasic import SumBasicAlgorithm
+from summarizer.tf_idf import TfIdfCalculator
 import argparse
 
 
@@ -21,10 +22,18 @@ if __name__ == '__main__':
     algorithm_dict = {'textrank': TextRankAlgorithm(), 'sumbasic': SumBasicAlgorithm()}
     algorithm = algorithm_dict[args.algorithm]
     summarizer = Summarizer(algorithm)
+
     print('Fetching articles...')
-    for article in crawler.get_content():
+    articles = crawler.get_content()
+
+    print('Computing tf-idf...')
+    tf_idf_calc = TfIdfCalculator([article.text for article in articles])
+    tf_idf_calc.choose_best_words(number=5)
+
+    for article in articles:
         print('Summarizing article: ', article.title)
         summary = summarizer.summarize(text=article.text, number_of_sentences=args.sentences, output_file=args.outfile,
                                        title=article.title)
         print(summary)
         print()
+
